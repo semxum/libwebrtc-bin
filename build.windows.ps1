@@ -6,7 +6,7 @@ $ErrorActionPreference = "Stop"
 
 $PSVersionTable
 
-# VERSIONファイル読み込み
+# VERSION加载版本
 $lines = get-content VERSION
 foreach ($line in $lines) {
   # WEBRTC_COMMITの行のみ取得する
@@ -16,7 +16,7 @@ foreach ($line in $lines) {
   }
 }
 
-# vsdevcmd.bat の設定を入れる
+# vsdevcmd.bat 设定
 # https://github.com/microsoft/vswhere/wiki/Find-VC
 $path = vswhere.exe -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
 if ($path) {
@@ -29,14 +29,14 @@ if ($path) {
 }
 
 $REPO_DIR = Resolve-Path "."
-$WEBRTC_DIR = "C:\webrtc"
-$BUILD_DIR = "C:\webrtc_build"
+$WEBRTC_DIR = "d:\webrtc1"
+$BUILD_DIR = "d:\webrtc_build"
 $DEPOT_TOOLS_DIR = Join-Path $REPO_DIR.Path "depot_tools"
 $PATCH_DIR = Join-Path $REPO_DIR.Path "patch"
 $PACKAGE_DIR = Join-Path $REPO_DIR.Path "package"
 
-# WebRTC ビルドに必要な環境変数の設定
-$Env:GYP_MSVS_VERSION = "2019"
+# WebRTC 配置构建所需的环境变量
+$Env:GYP_MSVS_VERSION = "2022"
 $Env:DEPOT_TOOLS_WIN_TOOLCHAIN = "0"
 $Env:PYTHONIOENCODING = "utf-8"
 
@@ -57,8 +57,8 @@ if (Test-Path $PACKAGE_DIR) {
 git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
 
 $Env:PATH = "$DEPOT_TOOLS_DIR;$Env:PATH"
-# Choco へのパスを削除
-$Env:PATH = $Env:Path.Replace("C:\ProgramData\Chocolatey\bin;", "")
+# 删除Choco的路径
+$Env:PATH = $Env:Path.Replace("C:\Program Files\7-Zip;", "")
 
 # WebRTC のソース取得
 New-Item $WEBRTC_DIR -ItemType Directory -Force
@@ -144,7 +144,7 @@ Copy-Item $BUILD_DIR\release_x64\obj\webrtc.lib $BUILD_DIR\package\webrtc\releas
 # ファイルを圧縮する
 New-Item $PACKAGE_DIR -ItemType Directory -Force
 Push-Location $BUILD_DIR\package\webrtc
-  cmd /s /c "C:\ProgramData\Chocolatey\bin\7z.exe" a -bsp0 -t7z:r -ssc -ms+ $PACKAGE_DIR\libwebrtc-win-x64.7z *
+  cmd /s /c "C:\Program Files\7-Zip\7z.exe" a -bsp0 -t7z:r -ssc -ms+ $PACKAGE_DIR\libwebrtc-win-x64.7z *
 Pop-Location
 
 # ライセンス生成 (x86)
@@ -160,5 +160,5 @@ Copy-Item $BUILD_DIR\release_x86\obj\webrtc.lib $BUILD_DIR\package\webrtc\releas
 # ファイルを圧縮する
 New-Item $PACKAGE_DIR -ItemType Directory -Force
 Push-Location $BUILD_DIR\package\webrtc
-  cmd /s /c "C:\ProgramData\Chocolatey\bin\7z.exe" a -bsp0 -t7z:r -ssc -ms+ $PACKAGE_DIR\libwebrtc-win-x86.7z *
+  cmd /s /c "C:\Program Files\7-Zip\7z.exe" a -bsp0 -t7z:r -ssc -ms+ $PACKAGE_DIR\libwebrtc-win-x86.7z *
 Pop-Location
