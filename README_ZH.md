@@ -59,6 +59,7 @@
 
 - Make
 - Python 3.8 (Windows可选，因为它将使用位于在“depottools”安装中)
+- windows需要安装7zip且需要安装在 C:\ProgramData\ ，如果不是请自行修改路径
 
 ## 构建
 
@@ -74,6 +75,7 @@ check `[options]` and `[platform]` by executing `make help`.
 ### Windows
 
 ```
+
 build.windows.bat
 ```
 
